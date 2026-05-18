@@ -1,0 +1,20 @@
+zephyr/lib/posix/c_lib_ext/CMakeFiles/lib__posix__c_lib_ext.dir/fnmatch.c.obj: \
+ /opt/nordic/ncs/v3.3.0/zephyr/lib/posix/c_lib_ext/fnmatch.c \
+ /Users/djsn/Documents/nrf/ble_demo_lp/build_ezurio/zephyr/include/generated/zephyr/autoconf.h \
+ /opt/nordic/ncs/v3.3.0/zephyr/include/zephyr/toolchain/zephyr_stdint.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/ctype.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/sys/cdefs.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/sys/config.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/machine/ieeefp.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/sys/features.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/picolibc.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/lib/gcc/arm-zephyr-eabi/12.2.0/include/float.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/machine/_default_types.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/lib/gcc/arm-zephyr-eabi/12.2.0/include/stdbool.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/string.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/lib/gcc/arm-zephyr-eabi/12.2.0/include/stddef.h \
+ /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/picolibc/include/sys/string.h \
+ /opt/nordic/ncs/v3.3.0/zephyr/include/zephyr/posix/fnmatch.h \
+ /opt/nordic/ncs/v3.3.0/zephyr/include/zephyr/toolchain.h \
+ /opt/nordic/ncs/v3.3.0/zephyr/include/zephyr/toolchain/gcc.h \
+ /opt/nordic/ncs/v3.3.0/zephyr/include/zephyr/toolchain/common.h

@@ -1,0 +1,2 @@
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ar qc liblib__posix__c_lib_ext.a CMakeFiles/lib__posix__c_lib_ext.dir/fnmatch.c.obj CMakeFiles/lib__posix__c_lib_ext.dir/getentropy.c.obj CMakeFiles/lib__posix__c_lib_ext.dir/getopt_shim.c.obj
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ranlib liblib__posix__c_lib_ext.a

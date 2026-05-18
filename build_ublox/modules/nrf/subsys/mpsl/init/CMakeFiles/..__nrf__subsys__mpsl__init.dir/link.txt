@@ -1,0 +1,2 @@
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ar qc lib..__nrf__subsys__mpsl__init.a CMakeFiles/..__nrf__subsys__mpsl__init.dir/mpsl_init.c.obj
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ranlib lib..__nrf__subsys__mpsl__init.a

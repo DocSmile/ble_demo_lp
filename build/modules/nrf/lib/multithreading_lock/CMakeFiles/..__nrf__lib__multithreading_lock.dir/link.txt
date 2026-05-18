@@ -1,0 +1,2 @@
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ar qc lib..__nrf__lib__multithreading_lock.a CMakeFiles/..__nrf__lib__multithreading_lock.dir/multithreading_lock.c.obj
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ranlib lib..__nrf__lib__multithreading_lock.a

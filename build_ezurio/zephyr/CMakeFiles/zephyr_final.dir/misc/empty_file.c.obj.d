@@ -1,0 +1,4 @@
+zephyr/CMakeFiles/zephyr_final.dir/misc/empty_file.c.obj: \
+ /opt/nordic/ncs/v3.3.0/zephyr/misc/empty_file.c \
+ /Users/djsn/Documents/nrf/ble_demo_lp/build_ezurio/zephyr/include/generated/zephyr/autoconf.h \
+ /opt/nordic/ncs/v3.3.0/zephyr/include/zephyr/toolchain/zephyr_stdint.h

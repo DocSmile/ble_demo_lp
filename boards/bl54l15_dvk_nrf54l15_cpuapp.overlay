@@ -1,0 +1,16 @@
+/*
+ * Board overlay: Ezurio BL54L15 DVK
+ * Target: bl54l15_dvk/nrf54l15/cpuapp
+ */
+
+&uart20 {
+    status = "okay";
+    current-speed = <115200>;
+};
+
+/ {
+    chosen {
+        zephyr,console    = &uart20;
+        zephyr,shell-uart = &uart20;
+    };
+};

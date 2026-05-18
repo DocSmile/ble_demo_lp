@@ -1,0 +1,19 @@
+/*
+ * Board overlay: Nordic nRF54L15DK
+ * Target: nrf54l15dk/nrf54l15/cpuapp
+ *
+ * UART20 is connected to the onboard J-Link CDC VCOM port (USB J3).
+ * Default pins: TX=P1.04, RX=P1.05
+ */
+
+&uart20 {
+    status = "okay";
+    current-speed = <115200>;
+};
+
+/ {
+    chosen {
+        zephyr,console    = &uart20;
+        zephyr,shell-uart = &uart20;
+    };
+};

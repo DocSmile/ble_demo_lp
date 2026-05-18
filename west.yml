@@ -1,0 +1,24 @@
+manifest:
+  remotes:
+    - name: ncs
+      url-base: https://github.com/nrfconnect
+    - name: u-blox
+      url-base: https://github.com/u-blox
+
+  projects:
+    - name: sdk-nrf
+      remote: ncs
+      revision: v3.3.0
+      import: true
+
+    # u-blox OpenCPU repo — provides ubx_evknorab2 BSP for NORA-B206
+    # Required ONLY for the NORA-B206 build target.
+    # The BL54L15 DVK and nRF54L15DK targets are already in NCS/Zephyr.
+    - name: u-blox-sho-OpenCPU
+      remote: u-blox
+      repo-path: u-blox-sho-OpenCPU
+      revision: main
+      path: u-blox-sho-OpenCPU
+
+  self:
+    path: ble_txpower_multiboard

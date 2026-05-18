@@ -1,0 +1,2 @@
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ar qc libmbedtls_zephyr.a CMakeFiles/mbedtls_zephyr.dir/mbedtls_heap.c.obj CMakeFiles/mbedtls_zephyr.dir/entropy_poll.c.obj CMakeFiles/mbedtls_zephyr.dir/psa_crypto_init.c.obj
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ranlib libmbedtls_zephyr.a

@@ -1,0 +1,32 @@
+# Application Kconfig
+
+mainmenu "BLE Demo LP"
+
+config APP_ADV_INTERVAL_MS
+	int "Advertising interval in milliseconds"
+	default 2400
+	range 20 10240
+	help
+	  BLE advertising interval in milliseconds.
+	  Valid range is 20ms to 10240ms.
+
+config APP_ADV_DURATION_MS
+	int "Advertising duration in milliseconds"
+	default 15000
+	help
+	  How long the device advertises before sleeping.
+
+config APP_SLEEP_DURATION_MS
+	int "Sleep duration in milliseconds"
+	default 5000
+	help
+	  How long the device sleeps between advertising windows.
+
+config APP_TX_POWER_DBM
+	int "TX power level in dBm"
+	default 0
+	help
+	  BLE TX power level in dBm.
+	  Valid values: 3, 0, -4, -8, -12, -16, -20
+
+source "Kconfig.zephyr"

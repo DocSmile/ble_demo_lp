@@ -1,0 +1,2 @@
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ar qc libarch__arm__core__cortex_m__cmse.a CMakeFiles/arch__arm__core__cortex_m__cmse.dir/arm_core_cmse.c.obj
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ranlib libarch__arm__core__cortex_m__cmse.a

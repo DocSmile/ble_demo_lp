@@ -1,0 +1,21 @@
+/*
+ * Board overlay: u-blox EVK-NORA-B2 (NORA-B206)
+ * Target: ubx_evknorab2/nrf54l15/cpuapp
+ *
+ * IMPORTANT - LFXO note:
+ * The NORA-B206 module does NOT include an external 32.768 kHz crystal
+ * on the module itself. The EVK board does fit an LFXO, but standalone
+ * NORA-B206 modules default to LFRC.
+ */
+
+&uart20 {
+    status = "okay";
+    current-speed = <115200>;
+};
+
+/ {
+    chosen {
+        zephyr,console    = &uart20;
+        zephyr,shell-uart = &uart20;
+    };
+};

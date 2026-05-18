@@ -1,0 +1,2 @@
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ar qc libnrf_security_utils.a CMakeFiles/nrf_security_utils.dir/utils/nrf_security_mutexes.c.obj CMakeFiles/nrf_security_utils.dir/utils/nrf_security_events.c.obj CMakeFiles/nrf_security_utils.dir/utils/nrf_security_core.c.obj
+ccache /opt/nordic/ncs/toolchains/0c0f19d91c/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-ranlib libnrf_security_utils.a
