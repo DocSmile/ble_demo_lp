@@ -1,137 +1,141 @@
-# BLE Dynamic TX Power Beacon — Multi-Board
-# Targets: nRF54L15DK | Ezurio BL54L15 DVK | u-blox NORA-B206 EVK
-# NCS v3.3.0
+# BLE Dynamic TX Power Beacon — Low Power Multi-Board
+## Targets: nRF54L15DK | Ezurio BL54L15 DVK | u-blox NORA-B206 EVK
+## NCS v3.3.0
 
-## Project structure
+## Overview
 
-```
-ble_txpower_multiboard/
-├── CMakeLists.txt                                   ← shared, unchanged for all boards
-├── prj.conf                                         ← shared Kconfig for all boards
-├── west.yml                                         ← NCS v3.3.0 + u-blox OpenCPU BSP
+This is a low power optimized BLE TX power beacon demo for the Nordic nRF54L15.
+It advertises for a configurable duration, then enters low power sleep, and repeats.
+All timing and power settings are configurable in `prj.conf` — no source code changes needed.
+
+---
+
+## Customer Configurable Settings (prj.conf)
+
+| Parameter | Config Symbol | Default | Description |
+|---|---|---|---|
+| Advertising Interval | `CONFIG_APP_ADV_INTERVAL_MS` | 2400 ms | Time between advertising events (20-10240ms) |
+| Advertising Duration | `CONFIG_APP_ADV_DURATION_MS` | 15000 ms | How long device advertises per cycle |
+| Sleep Duration | `CONFIG_APP_SLEEP_DURATION_MS` | 5000 ms | Low power sleep time between cycles |
+| TX Power | `CONFIG_APP_TX_POWER_DBM` | 0 dBm | BLE TX power (3, 0, -4, -8, -12, -16, -20 dBm) |
+
+To change any setting, edit `prj.conf`:
+CONFIG_APP_ADV_INTERVAL_MS=2400
+CONFIG_APP_ADV_DURATION_MS=15000
+CONFIG_APP_SLEEP_DURATION_MS=5000
+CONFIG_APP_TX_POWER_DBM=0
+
+Then rebuild for your target board.
+
+---
+
+## Power Optimizations vs Standard Demo
+
+- **Event-driven main loop** — CPU wakes only to start/stop advertising, not every 2 seconds
+- **Non-connectable advertising** — eliminates scan window listening between ad events
+- **RTT console** instead of UART — removes continuous peripheral clock drain
+- **Consistent TX power** — connection TX power matches advertising power (no NO_PREF)
+- **Reduced BT stack** — SMP, GATT client, dynamic DB disabled
+- **Reduced heap/stack** — 4KB heap, 1KB workqueue stack
+
+---
+
+## Project Structure
+ble_demo_lp/
+├── CMakeLists.txt
+├── Kconfig                                          ← app-level Kconfig definitions
+├── prj.conf                                         ← customer timing & power settings
+├── sysbuild.conf                                    ← disables deprecated partition manager
+├── west.yml
 ├── README.md
 ├── boards/
 │   ├── nrf54l15dk_nrf54l15_cpuapp.overlay          ← Nordic nRF54L15DK
 │   ├── bl54l15_dvk_nrf54l15_cpuapp.overlay         ← Ezurio BL54L15 DVK
 │   └── ubx_evknorab2_nrf54l15_cpuapp.overlay       ← u-blox NORA-B206 EVK
 └── src/
-    ├── main.c                                       ← unchanged
-    ├── ble.c                                        ← unchanged
-    └── ble.h                                        ← unchanged
-```
-
-The application source files are IDENTICAL across all three boards.
-Only the board overlay and the `-b` build flag change between targets.
-
+├── main.c                                       ← event-driven cycle loop
+├── ble.c                                        ← BLE init, advertise, TX power
+└── ble.h
 ---
 
-## One-time workspace setup (NCS v3.3.0)
-
-```bash
-west init -m https://github.com/nrfconnect/sdk-nrf --mr v3.3.0 ~/ncs/v3.3.0
-cd ~/ncs/v3.3.0
-west update
-```
-
-For the NORA-B206 target only, the u-blox OpenCPU BSP is fetched
-automatically by `west update` via the west.yml entry above.
-
----
-
-## Build commands
+## Build Commands (NCS v3.3.0)
 
 ### Nordic nRF54L15DK
-BSP is built into NCS — no extra steps needed.
-
 ```bash
-cd /path/to/ble_txpower_multiboard
-
-west build -b nrf54l15dk/nrf54l15/cpuapp --sysbuild
-west flash
+cd /path/to/ble_demo_lp
+/opt/nordic/ncs/toolchains/0c0f19d91c/bin/cmake -B build -DBOARD=nrf54l15dk/nrf54l15/cpuapp -DCONF_FILE=prj.conf -DCONFIG_DEBUG_THREAD_INFO=y .
+/opt/nordic/ncs/toolchains/0c0f19d91c/bin/cmake --build build
 ```
-
----
 
 ### Ezurio BL54L15 DVK
-BSP (`bl54l15_dvk`) is included in NCS v3.3.0 and Zephyr mainline.
-No extra steps needed.
-
 ```bash
-cd /path/to/ble_txpower_multiboard
-
-west build -b bl54l15_dvk/nrf54l15/cpuapp --sysbuild
-west flash
+/opt/nordic/ncs/toolchains/0c0f19d91c/bin/cmake -B build_ezurio -DBOARD=bl54l15_dvk/nrf54l15/cpuapp -DCONF_FILE=prj.conf -DCONFIG_DEBUG_THREAD_INFO=y .
+/opt/nordic/ncs/toolchains/0c0f19d91c/bin/cmake --build build_ezurio
 ```
 
-> If the board shows readback protection on first flash:
+> **Note:** Ezurio BL54L15 board files are not in NCS 3.3.0. Copy from Zephyr mainline:
 > ```bash
-> nrfjprog --recover --family NRF54L
-> west flash
+> cp -r ~/Downloads/zephyr-main/boards/ezurio/bl54l15_dvk \
+>   /opt/nordic/ncs/v3.3.0/zephyr/boards/ezurio/
+> ```
+
+### u-blox NORA-B206
+```bash
+/opt/nordic/ncs/toolchains/0c0f19d91c/bin/cmake -B build_ublox -DBOARD=ubx_evknorab2/nrf54l15/cpuapp -DCONF_FILE=prj.conf -DCONFIG_DEBUG_THREAD_INFO=y .
+/opt/nordic/ncs/toolchains/0c0f19d91c/bin/cmake --build build_ublox
+```
+
+> **Note:** u-blox board files require a one-time patch for NCS 3.3.0:
+> ```bash
+> sudo cp -r ~/Downloads/u-blox-sho-OpenCPU/zephyr/boards/u-blox/ubx_evknorab2 \
+>   /opt/nordic/ncs/v3.3.0/zephyr/boards/u-blox/
+> sudo sed -i '' 's/nrf54l15_partition.dtsi/nrf54l15_cpuapp_partition.dtsi/' \
+>   /opt/nordic/ncs/v3.3.0/zephyr/boards/u-blox/ubx_evknorab2/ubx_evknorab2_nrf54l15_cpuapp.dts
 > ```
 
 ---
 
-### u-blox NORA-B206 (EVK-NORA-B2)
-The `ubx_evknorab2` BSP is NOT in NCS mainline. It lives in the
-u-blox OpenCPU GitHub repo. west.yml fetches it automatically,
-but you must tell the build system where to find it:
+## Flash Commands
 
 ```bash
-cd /path/to/ble_txpower_multiboard
-
-west build -b ubx_evknorab2/nrf54l15/cpuapp --sysbuild \
-  -DBOARD_ROOT=~/ncs/v3.3.0/u-blox-sho-OpenCPU
-
-west flash
+west flash --build-dir build          # Nordic DK
+west flash --build-dir build_ezurio   # Ezurio
+west flash --build-dir build_ublox    # u-blox
 ```
 
-> On first use with a fresh NORA-B206 module (readback protection):
+> If readback protection is enabled on first flash:
 > ```bash
 > nrfjprog --recover --family NRF54L
-> west flash
+> west flash --build-dir build
 > ```
 
-> LFXO note: NORA-B206 modules do NOT include an external 32.768kHz
-> crystal. The EVK board does. If deploying to a bare module, follow
-> u-blox App Note "RC oscillator configuration for nRF5 open CPU modules"
-> to switch from LFXO to LFRC in the device tree.
+---
+
+## Serial Console
+
+Uses **RTT** instead of UART for near-zero power cost.
+View output using:
+- nRF Connect Serial Terminal (RTT mode)
+- J-Link RTT Viewer
+- `JLinkRTTClient` from command line
 
 ---
 
-## Serial console
+## TX Power Reference
 
-All three boards expose a USB CDC virtual COM port via their onboard
-J-Link debugger. Connect at **115200 baud, 8N1**.
-
-- Windows: COMxx (appears in Device Manager as "JLink CDC UART Port")
-- Linux:   /dev/ttyACM0 (or ttyACM1)
-- macOS:   /dev/tty.usbmodemXXXXX
-
-Use nRF Connect Serial Terminal, PuTTY, or:
-```bash
-screen /dev/ttyACM0 115200
-```
+| dBm | Use Case |
+|---|---|
+| +3 | Maximum range |
+| 0 | Default, good balance |
+| -4 | Short range, lower power |
+| -8 | Very short range |
+| -12 | Proximity only |
+| -16 | Minimal range |
+| -20 | Lowest power |
 
 ---
 
-## What the application does
+## LFXO Note (u-blox NORA-B206)
 
-- Initialises the BT stack and sets advertiser TX power to **-8 dBm**
-- Starts connectable advertising (2400ms interval) at ticker == 0
-- Stops advertising at ticker == 16
-- Ticker wraps every 24 steps (48 seconds total cycle)
-- Prints TX power for any incoming BLE connection
-- On disconnect, restarts the advertising cycle
-
----
-
-## Why only the overlay changes between boards
-
-All three modules use the same Nordic nRF54L15 SoC. The `prj.conf`
-Kconfig and `src/` files are completely hardware-agnostic. The board
-overlay is the only thing that differs because it tells Zephyr:
-  - Which UART peripheral to use for the console
-  - Which physical pins that UART is connected to on that specific PCB
-
-NCS automatically selects the matching overlay by filename convention:
-  `boards/<board_name>.overlay` is picked up when building for that target.
+NORA-B206 modules do NOT include an external 32.768kHz crystal on the module.
+The EVK board does. If deploying to a bare module, configure LFRC in the device tree.
